@@ -18,4 +18,4 @@ feedMastodon.py
 
 ## License
 
-	[Gnu General Public License (GPL), Version 3 or later](https://www.gnu.org/licenses/gpl-3.0.html#SEC1)
+[Gnu General Public License (GPL), Version 3 or later](https://www.gnu.org/licenses/gpl-3.0.html#SEC1)
