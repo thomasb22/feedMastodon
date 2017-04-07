@@ -23,8 +23,7 @@ mastodon = Mastodon(
 )
 mastodon.log_in(
 	login,
-	pwd,
-	to_file = 'feedMastodon-pytooter_usercred.txt'
+	pwd
 )
 
 feed = feedparser.parse(feedurl)
