@@ -56,7 +56,6 @@ for item in reversed(feed.entries):
 		db.flush()
 
 		nbtoot = nbtoot + 1
-
 		if nbtoot >= maxtoots:
 			break
 
