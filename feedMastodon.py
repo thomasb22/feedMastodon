@@ -9,6 +9,7 @@ pwd = ''
 filename = 'feedMastodon-db.txt'
 feedurl = 'http://exemple.com/rss.xml'
 hashtags = '#feedMastodon #Mastodon'
+maxtoots = 3
 
 if not os.path.exists('feedMastodon-pytooter_clientcred.txt'):
 	Mastodon.create_app(
@@ -26,6 +27,7 @@ mastodon.log_in(
 	pwd
 )
 
+nbtoot = 0
 feed = feedparser.parse(feedurl)
 
 for item in reversed(feed.entries):
@@ -52,5 +54,10 @@ for item in reversed(feed.entries):
 		mastodon.toot(toot)
 		db.write(link + '\n')
 		db.flush()
+
+		nbtoot = nbtoot + 1
+
+		if nbtoot >= maxtoots:
+			break
 
 db.close()
