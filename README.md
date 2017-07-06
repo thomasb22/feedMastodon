@@ -11,7 +11,7 @@ Feed Mastodon with RSS Feeds
 ## Installation and usage
 
 ```
-git clone git@framagit.org:thomasb22/feedMastodon.git
+git clone https://framagit.org/thomasb22/feedMastodon.git
 cd feedMastodon
 feedMastodon.py
 ```
