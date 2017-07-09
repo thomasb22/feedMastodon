@@ -22,10 +22,6 @@ mastodon = Mastodon(
 	client_id = 'feedMastodon-pytooter_clientcred.txt',
 	api_base_url = your_instance
 )
-mastodon.log_in(
-	login,
-	pwd
-)
 
 nbtoot = 0
 feed = feedparser.parse(feedurl)
@@ -51,6 +47,9 @@ for item in reversed(feed.entries):
 			send = False
 
 	if send:
+		if nbtoot == 0:
+			mastodon.log_in(login, pwd)
+
 		mastodon.toot(toot)
 		db.write(link + '\n')
 		db.flush()
