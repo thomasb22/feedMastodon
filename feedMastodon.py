@@ -1,15 +1,22 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import os.path
 from mastodon import Mastodon
 import feedparser
-import os
+import re
 
 your_instance = 'https://mastodon.social'
 login = 'me@email.com'
 pwd = ''
 
-filename = 'feedMastodon-db.txt'
 feedurl = 'http://exemple.com/rss.xml'
 hashtags = '#feedMastodon #Mastodon'
-maxtoots = 3
+
+filename = 'feedMastodon-db.txt'
+show_summary = True;
+maxtoots = 2
+maxchar = 500
 
 if not os.path.exists('feedMastodon-pytooter_clientcred.txt'):
 	Mastodon.create_app(
@@ -29,11 +36,34 @@ feed = feedparser.parse(feedurl)
 for item in reversed(feed.entries):
 	send = True
 	title = item.title
+	summary = re.sub('<.*?>', '', item.summary)
 	link = item.link
 	toot = title + ' ' + link
 
+	if show_summary:
+		toot = title + '\n\n"' + summary + '"\n\n' + link
+
 	if hashtags:
 		toot += ' ' + hashtags
+
+	if show_summary and len(toot) > maxchar and len(summary) > (len(toot) - maxchar) - 4:
+		if hashtags:
+			maxsum = len(summary) - (len(toot) - maxchar) - 4
+		else:
+			maxsum = len(summary) - (len(toot) - maxchar) - 3
+		toot = title + '\n\n"' + summary[:maxsum] + '[…]"\n\n' + link
+
+		if hashtags and len(toot) <= maxchar - (len(hashtags) + 1):
+			toot += '\n\n' + hashtags
+	elif len(toot) > maxchar and len(title) > (len(toot) - maxchar) - 3:
+		maxtitle = len(title) - (len(toot) - maxchar) - 3
+		toot = title[:maxtitle] + '[…] ' + link
+
+		if hashtags and len(toot) <= maxchar - (len(hashtags) + 1):
+			toot += ' ' + hashtags
+
+	if len(toot) > maxchar:
+		send = False
 
 	if os.path.exists(filename):
 		db = open(filename, "r+")
@@ -58,4 +88,4 @@ for item in reversed(feed.entries):
 		if nbtoot >= maxtoots:
 			break
 
-db.close()
+	db.close()
