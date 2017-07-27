@@ -35,7 +35,8 @@ feed = feedparser.parse(feedurl)
 
 for item in reversed(feed.entries):
 	send = True
-	title = item.title
+	soup = BeautifulSoup(item.title, 'lxml')
+	title = soup.title
 	soup = BeautifulSoup(item.summary, 'lxml')
 	summary = soup.text
 	link = item.link
