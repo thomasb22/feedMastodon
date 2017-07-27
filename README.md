@@ -5,8 +5,9 @@ Feed Mastodon with RSS Feeds
 ## Requirements
 
 * Python 3
-* Mastodon API
-* feedparser
+* [Mastodon API](https://github.com/halcy/Mastodon.py)
+* [feedparser](https://github.com/kurtmckee/feedparser)
+* [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
 
 ## Installation and usage
 
