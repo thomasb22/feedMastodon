@@ -46,18 +46,18 @@ for item in reversed(feed.entries):
 	if hashtags:
 		toot += ' ' + hashtags
 
-	if show_summary and len(toot) > maxchar and len(summary) > (len(toot) - maxchar) - 4:
+	if show_summary and len(toot) > maxchar and len(summary) > (len(toot) - maxchar) - 2:
 		if hashtags:
-			maxsum = len(summary) - (len(toot) - maxchar) - 4
+			maxsum = len(summary) - (len(toot) - maxchar) - 2
 		else:
-			maxsum = len(summary) - (len(toot) - maxchar) - 3
-		toot = title + '\n\n"' + summary[:maxsum] + '[…]"\n\n' + link
+			maxsum = len(summary) - (len(toot) - maxchar) - 1
+		toot = title + '\n\n"' + summary[:maxsum] + '…"\n\n' + link
 
 		if hashtags and len(toot) <= maxchar - (len(hashtags) + 1):
 			toot += '\n\n' + hashtags
-	elif len(toot) > maxchar and len(title) > (len(toot) - maxchar) - 3:
-		maxtitle = len(title) - (len(toot) - maxchar) - 3
-		toot = title[:maxtitle] + '[…] ' + link
+	elif len(toot) > maxchar and len(title) > (len(toot) - maxchar) - 1:
+		maxtitle = len(title) - (len(toot) - maxchar) - 1
+		toot = title[:maxtitle] + '… ' + link
 
 		if hashtags and len(toot) <= maxchar - (len(hashtags) + 1):
 			toot += ' ' + hashtags
