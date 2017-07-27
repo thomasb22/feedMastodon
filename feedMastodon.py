@@ -4,7 +4,7 @@
 import os.path
 from mastodon import Mastodon
 import feedparser
-import re
+from bs4 import BeautifulSoup
 
 your_instance = 'https://mastodon.social'
 login = 'me@email.com'
@@ -36,7 +36,8 @@ feed = feedparser.parse(feedurl)
 for item in reversed(feed.entries):
 	send = True
 	title = item.title
-	summary = re.sub('<.*?>', '', item.summary)
+	soup = BeautifulSoup(item.summary, 'lxml')
+	summary = soup.text
 	link = item.link
 	toot = title + ' ' + link
 
