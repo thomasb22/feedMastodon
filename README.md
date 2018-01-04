@@ -8,6 +8,8 @@ Feed Mastodon with RSS Feeds
 * [Mastodon API](https://github.com/halcy/Mastodon.py)
 * [feedparser](https://github.com/kurtmckee/feedparser)
 * [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
+* [lxml](http://lxml.de/)
+* [wget](https://bitbucket.org/techtonik/python-wget/src)
 
 ## Installation and usage
 
