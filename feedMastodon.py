@@ -16,7 +16,7 @@ hashtags = '#feedMastodon #Mastodon'
 
 filename = 'feedMastodon-db.txt'
 tmpdir = 'tmp'
-show_summary = True
+show_summary = False
 show_picture = False
 maxtoots = 2
 maxchar = 500
