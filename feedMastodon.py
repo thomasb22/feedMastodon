@@ -85,18 +85,19 @@ for item in reversed(feed.entries):
 		if nbtoot == 0:
 			mastodon.log_in(login, pwd)
 
-		if show_picture and item.enclosures[0].length and int(item.enclosures[0].length) <= 1000000:
-			tmpfilename = item.enclosures[0].href.split('/')[-1]
-			tmppath = tmpdir + '/' + tmpfilename
-			pictures_ids = []
+		if show_picture and item.enclosures:
+			if int(item.enclosures[0].length) <= 1000000:
+				tmpfilename = item.enclosures[0].href.split('/')[-1]
+				tmppath = tmpdir + '/' + tmpfilename
+				pictures_ids = []
 
-			if not os.path.exists(tmpdir):
-				os.mkdir(tmpdir)
+				if not os.path.exists(tmpdir):
+					os.mkdir(tmpdir)
 
-			wget.download(item.enclosures[0].href, tmppath)
-			pictures_ids.append( mastodon.media_post(tmppath) )
-			mastodon.status_post(toot, media_ids=pictures_ids)
-			os.remove(tmppath)
+				wget.download(item.enclosures[0].href, tmppath)
+				pictures_ids.append( mastodon.media_post(tmppath) )
+				mastodon.status_post(toot, media_ids=pictures_ids)
+				os.remove(tmppath)
 		else:
 			mastodon.toot(toot)
 
