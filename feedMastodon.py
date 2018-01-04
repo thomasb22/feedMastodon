@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os.path
+import os, sys
+import wget
 from mastodon import Mastodon
 import feedparser
 from bs4 import BeautifulSoup
@@ -14,7 +15,9 @@ feedurl = 'http://exemple.com/rss.xml'
 hashtags = '#feedMastodon #Mastodon'
 
 filename = 'feedMastodon-db.txt'
-show_summary = True;
+tmpdir = 'tmp'
+show_summary = True
+show_picture = False
 maxtoots = 2
 maxchar = 500
 
@@ -82,7 +85,21 @@ for item in reversed(feed.entries):
 		if nbtoot == 0:
 			mastodon.log_in(login, pwd)
 
-		mastodon.toot(toot)
+		if show_picture and item.enclosures[0].length and int(item.enclosures[0].length) <= 1000000:
+			tmpfilename = item.enclosures[0].href.split('/')[-1]
+			tmppath = tmpdir + '/' + tmpfilename
+			pictures_ids = []
+
+			if not os.path.exists(tmpdir):
+				os.mkdir(tmpdir)
+
+			wget.download(item.enclosures[0].href, tmppath)
+			pictures_ids.append( mastodon.media_post(tmppath) )
+			mastodon.status_post(toot, media_ids=pictures_ids)
+			os.remove(tmppath)
+		else:
+			mastodon.toot(toot)
+
 		db.write(link + '\n')
 		db.flush()
 
@@ -91,3 +108,6 @@ for item in reversed(feed.entries):
 			break
 
 	db.close()
+
+if os.path.exists(tmpdir):
+	os.rmdir(tmpdir)
