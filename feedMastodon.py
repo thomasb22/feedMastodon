@@ -86,7 +86,7 @@ for item in reversed(feed.entries):
 			mastodon.log_in(login, pwd)
 
 		if show_picture and item.enclosures:
-			if int(item.enclosures[0].length) <= 1000000:
+			if item.enclosures[0].type[:5] == 'image' and int(item.enclosures[0].length) <= 1000000:
 				tmpfilename = item.enclosures[0].href.split('/')[-1]
 				tmppath = tmpdir + '/' + tmpfilename
 				pictures_ids = []
