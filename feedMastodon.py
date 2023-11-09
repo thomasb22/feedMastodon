@@ -20,6 +20,7 @@ show_summary = [False, False]
 show_picture = [False, False]
 maxtoots = [2, 2]
 maxchar = [500, 500]
+logged = False
 
 if not os.path.exists('feedMastodon-pytooter_clientcred.txt'):
 	Mastodon.create_app(
@@ -83,8 +84,9 @@ for idx, feedUrl in enumerate(feedsUrl):
 				send = False
 
 		if send:
-			if nbtoot == 0:
+			if not logged:
 				mastodon.log_in(login, pwd)
+				logged = True
 
 			print( str(idx) + " " + str(show_picture[idx]) )
 
