@@ -43,13 +43,13 @@ for item in reversed(feed.entries):
 	soup = BeautifulSoup(item.summary, 'lxml')
 	summary = soup.text
 	link = item.link
-	toot = title + ' ' + link
+	toot = title + '\n\n' + link
 
 	if show_summary:
 		toot = title + '\n\n"' + summary + '"\n\n' + link
 
 	if hashtags:
-		toot += ' ' + hashtags
+		toot += '\n\n' + hashtags
 
 	if show_summary and len(toot) > maxchar and len(summary) > (len(toot) - maxchar) - 2:
 		if hashtags:
@@ -65,7 +65,7 @@ for item in reversed(feed.entries):
 		toot = title[:maxtitle] + '… ' + link
 
 		if hashtags and len(toot) <= maxchar - (len(hashtags) + 1):
-			toot += ' ' + hashtags
+			toot += '\n\n' + hashtags
 
 	if len(toot) > maxchar:
 		send = False
