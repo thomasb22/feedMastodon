@@ -7,10 +7,6 @@ from mastodon import Mastodon
 import feedparser
 from bs4 import BeautifulSoup
 
-your_instance = 'https://mastodon.social'
-login = 'me@email.com'
-pwd = ''
-
 feedsUrl = ['http://exemple.com/rss1.xml', 'http://exemple.com/rss2.xml']
 hashtags = '#feedMastodon #Mastodon'
 
@@ -20,18 +16,10 @@ show_summary = [False, False]
 show_picture = [False, False]
 maxtoots = [2, 2]
 maxchar = [500, 500]
-logged = False
-
-if not os.path.exists('feedMastodon-pytooter_clientcred.txt'):
-	Mastodon.create_app(
-		'feedMastodon',
-		to_file = 'feedMastodon-pytooter_clientcred.txt',
-		api_base_url = your_instance
-	)
 
 mastodon = Mastodon(
-	client_id = 'feedMastodon-pytooter_clientcred.txt',
-	api_base_url = your_instance
+	access_token='pytooter_usercred.txt',
+	lang='fr'
 )
 
 for idx, feedUrl in enumerate(feedsUrl):
@@ -84,12 +72,6 @@ for idx, feedUrl in enumerate(feedsUrl):
 				send = False
 
 		if send:
-			if not logged:
-				mastodon.log_in(login, pwd)
-				logged = True
-
-			print( str(idx) + " " + str(show_picture[idx]) )
-
 			if show_picture[idx] and item.enclosures:
 				if item.enclosures[0].type[:5] == 'image' and int(item.enclosures[0].length) <= 1000000:
 					tmpfilename = item.enclosures[0].href.split('/')[-1]
