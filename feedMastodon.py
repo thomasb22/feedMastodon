@@ -18,8 +18,7 @@ maxtoots = [2, 2]
 maxchar = [500, 500]
 
 mastodon = Mastodon(
-	access_token='pytooter_usercred.txt',
-	lang='fr'
+	access_token='pytooter_usercred.txt'
 )
 
 for idx, feedUrl in enumerate(feedsUrl):
